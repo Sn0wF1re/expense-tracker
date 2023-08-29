@@ -61,7 +61,7 @@ export default {
         category: categoryToAdd
         }
 
-        const res = await fetch('http://localhost:3000/api/expenses/', {
+        const res = await fetch('https://expense-tracker-api-esx2.onrender.com/api/expenses/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

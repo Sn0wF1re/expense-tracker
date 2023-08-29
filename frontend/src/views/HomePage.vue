@@ -70,7 +70,7 @@ export default {
 
     const deleteExpense = async () => {
       if (expenseToDelete.value) {
-        const res = await fetch(`http://localhost:3000/api/expenses/${expenseToDelete.value._id}`, {
+        const res = await fetch(`https://expense-tracker-api-esx2.onrender.com/api/expenses/${expenseToDelete.value._id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default {
     const updateExpense = async () => {
       if (updatedExpense.value) {
         const res = await fetch(
-          `http://localhost:3000/api/expenses/${updatedExpense.value._id}`, 
+          `https://expense-tracker-api-esx2.onrender.com/api/expenses/${updatedExpense.value._id}`, 
           {
             method: 'PUT',
             headers: {
