@@ -15,11 +15,7 @@ const expenseSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now()
-  },
-  userId: {
-    type: Schema.Types.ObjectId, // same as _id
-    required: true
+    default: Date.now
   }
 });
 

@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "sourceType": "module",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,11 @@
     "mongoose": "^7.3.1"
   },
   "devDependencies": {
-    "eslint": "^8.44.0"
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.44.0",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
   }
 }
