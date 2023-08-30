@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <h1>Track your Expenses Easily</h1>
     <AddExpenseModal />
     <h2>Expenses:</h2>
@@ -25,8 +25,10 @@
         <label>Category</label>
         <input type="text" v-model="updatedExpense.category" required>
 
-        <button @click="cancelUpdate" class="cancel-button">Cancel</button>
-        <button type="submit" class="update-button">Update</button>
+        <div class="update-buttons">
+          <button @click="cancelUpdate" class="cancel-button">Cancel</button>
+          <button type="submit" class="update-button">Update</button>
+        </div>
       </form>
     </div>
 
@@ -148,6 +150,10 @@ export default {
 </script>
 
 <style>
+  .home {
+    min-height: 100vh;
+  }
+
   .modal-overlay p {
     color: black;
   }
@@ -191,7 +197,8 @@ export default {
   .grid-container {
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
+    padding-right: 38px;
   }
 
   .expense-card {
