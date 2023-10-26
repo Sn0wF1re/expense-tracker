@@ -1,6 +1,10 @@
 const {Schema, model} = require('mongoose');
 
 const expenseSchema = new Schema({
+  userId : {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   description: {
     type: String,
     required: true
