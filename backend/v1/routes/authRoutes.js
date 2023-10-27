@@ -8,4 +8,7 @@ router.post('/register', authController.register);
 // login existing user and issue jwt
 router.post('/login', authController.login);
 
+// logout user
+router.post('/logout', authController.logout);
+
 module.exports = router;

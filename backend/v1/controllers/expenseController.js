@@ -3,9 +3,10 @@ const Expense = require('../models/expense');
 // create expense
 const createExpense = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const user = req.user;
+    console.log('user: ', req.user);
     const newExpense = await Expense.create({
-      userId,
+      userId: user.id,
       description: req.body.description,
       amount: req.body.amount,
       category: req.body.category,
@@ -30,9 +31,9 @@ const getExpenses = async (req, res, next) => {
 // get one expense
 const getExpense = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    const user = req.user;
     const expenseId = req.params.id;
-    const expense = await Expense.findOne({ userId, _id: expenseId });
+    const expense = await Expense.findOne({ userId: user.id, _id: expenseId });
     if (expense) {
       res.json(expense)
     } else {

@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const expressJwt = require('express-jwt');
+const { verifyToken } = require('./middleware/auth');
 
 dotenv.config();
 
@@ -23,9 +23,9 @@ mongoose.connect(dbUri, {
 // routes
 const expenseRoutes = require('./routes/expenseRoutes');
 const authRoutes = require('./routes/authRoutes');
+const secret = process.env.JWT_SECRET;
 
-app.use('api/v1/expenses', expressJwt({ secret: process.env.JWT_SECRET }));
-app.use('/api/v1/expenses', expenseRoutes);
+app.use('/api/v1/expenses', verifyToken, expenseRoutes);
 app.use('/api/v1/auth', authRoutes);
 
 const port = process.env.PORT || 3000;
