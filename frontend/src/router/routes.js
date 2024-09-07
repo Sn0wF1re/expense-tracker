@@ -1,22 +1,27 @@
 
 const routes = [
-  // {
-  //   path: '/',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [
-  //     { path: '', component: () => import('pages/HomePage.vue') }
-  //   ]
-  // },
+  {
+    path: '/expenses',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/HomePage.vue') }
+    ]
+  },
 
   {
     path: '/',
-    component: () => import('pages/HomePage.vue'),
+    component: () => import('pages/SignupPage.vue'),
   },
 
   {
-    path: '/auth',
-    component: () => import('pages/AuthPage.vue'),
+    path: '/login',
+    component: () => import('pages/LoginPage.vue'),
   },
+
+  // {
+  //   path: '/home',
+  //   component: () => import('pages/HomePage.vue'),
+  // },
 
   // Always leave this as last one,
   // but you can also remove it
