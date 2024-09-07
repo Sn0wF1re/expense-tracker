@@ -14,13 +14,17 @@ const expenseSchema = new Schema({
     required: true
   },
   category: {
-    type: String,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
   },
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  budget: {
+    type: Schema.Types.ObjectId,
+    ref: 'Budget',
+  },
 });
 
 const Expense = model('Expense', expenseSchema);
