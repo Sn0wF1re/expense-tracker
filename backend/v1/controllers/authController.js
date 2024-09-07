@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const { z } = require('zod');
 const bcrypt = require('bcrypt');
-const { generateToken, verifyToken } = require('../middleware/auth');
+const { generateToken } = require('../middleware/auth');
 
 // register new user and issue jwt
 const register = async (req, res) => {
@@ -46,20 +46,25 @@ const login = async (req, res) => {
 
   const { email, password } = req.body;
 
-  // check if user exists in db
-  const user = await User.findOne({ email });
+  try {
+    // check if user exists in db
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
   
-  if (!user) {
-    return res.status(400).json({ error: 'User not found' });
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({ error: 'Invalid password' });
+    }
+  
+    const token = generateToken(user);
+    res.json({ message: 'Login successful!', accessToken: token, id: user.id, email: user.email });
+  }catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Something went wrong' });
   }
-
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) {
-    return res.status(400).json({ error: 'Invalid password' });
-  }
-
-  const token = generateToken(user);
-  res.json({ message: 'Login successful!', accessToken: token, id: user.id, email: user.email });
 };
 
 const logout = async (req, res) => {
