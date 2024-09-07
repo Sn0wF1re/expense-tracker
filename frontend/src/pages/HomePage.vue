@@ -1,5 +1,10 @@
 <template>
-    <div class="balance">
+    <!-- <div class="header">
+        <h2>WapiDoh</h2>
+        <a class="logout" @click="logout">Log Out</a>
+    </div> -->
+
+    <div class="welcome">
         <h2>Hello, Clinton</h2>
         <p>Here is your budget overview</p>
     </div>
@@ -26,25 +31,47 @@
         </div>
     </div>
 
-    <div class="create-expense">
-        <h2>
-            Add expense
-        </h2>
-        <q-icon name="add_circle_outlined" size="sm"></q-icon>
-    </div>
+    <AddExpenseForm v-model:isDialogOpen="isDialogOpen" />
 
     <div class="entries">
-        <EntryCard title="Entry 1" price="$100" frequency="Monthly" date="2022-01-01" />
-        <EntryCard title="Entry 2" price="$200" frequency="Weekly" date="2022-01-01" />
-        <EntryCard title="Entry 3" price="$300" frequency="Yearly" date="2022-01-01" />
+        <EntryCard description="Entry 1" price="$100" category="Fuel" date="2022-01-01" />
+        <EntryCard description="Entry 2" price="$200" category="Food" date="2022-01-01" />
+        <EntryCard description="Entry 3" price="$300" category="Entertainment" date="2022-01-01" />
     </div>
 </template>
 
 <script setup>
 import EntryCard from '../components/EntryCard.vue';
+import AddExpenseForm from '../components/AddExpenseForm.vue';
+import { useAuthStore } from '../stores/authStore';
+
+const authStore = useAuthStore();
+const logout = () => {
+    authStore.logout();
+};
 </script>
 
 <style scoped>
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    margin-bottom: 0;
+    padding: 0.5rem;
+
+    .logout {
+        color: #E06336;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.welcome {
+    margin: 0 1rem;
+    padding: 0.5rem;
+}
+
 .balance {
     margin: 1rem;
     padding: 0.5rem;
@@ -58,19 +85,6 @@ import EntryCard from '../components/EntryCard.vue';
 .mobile-limit {
     display: none;
     max-width: 96vw;
-}
-
-.create-expense {
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    cursor: pointer;
-    
-    h2 {
-        padding-bottom: 0.2rem;
-    }
 }
 
 @media (max-width: 850px) {
