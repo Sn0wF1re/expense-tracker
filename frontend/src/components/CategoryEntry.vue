@@ -1,8 +1,9 @@
 <template>
+
     <div class="entry">
         <div class="description">
             <h2>
-                {{ name }}
+                {{ category.name }}
             </h2>
             <!-- <div class="actions">
                 <q-icon name="edit_sharp" size="sm" />
@@ -11,13 +12,19 @@
         </div>
 
         <div class="entry-content">
-            <p>20 expenses</p>
+            <p v-if="category.expenses.length === 1">1 expense</p>
+            <p v-else>{{ category.expenses.length }} expenses</p>
         </div>
     </div>
 </template>
 
 <script setup>
-const props = defineProps(['name']);
+const props = defineProps({
+    category: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <style scoped>
