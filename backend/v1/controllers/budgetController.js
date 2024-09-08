@@ -3,9 +3,9 @@ const Budget = require('../models/budget');
 // create budget
 const createBudget = async (req, res, next) => {
   try {
-    const user = req.user;
+    const userId = req.user.id;
     const newBudget = await Budget.create({
-      userId: user.id,
+      userId,
       budget: req.body.budget,
     });
     res.json(newBudget);
@@ -19,6 +19,9 @@ const getBudgets = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const budgets = await Budget.find({ userId });
+    if (!budgets) {
+      res.status(404).json({ message: 'Budgets not found!' });
+    }
     res.json(budgets);
   } catch(err) {
     next(err);
@@ -28,9 +31,12 @@ const getBudgets = async (req, res, next) => {
 // get one budget
 const getBudget = async (req, res, next) => {
   try {
-    const user = req.user;
+    const userId = req.user.id;
     const budgetId = req.params.id;
-    const budget = await Budget.findOne({ userId: user.id, _id: budgetId });
+    const budget = await Budget.findOne({
+      userId,
+      _id: budgetId
+    });
     if (budget) {
       res.json(budget)
     } else {
@@ -49,12 +55,13 @@ const updateBudget = async (req, res, next) => {
     const update = {
       budget: req.body.budget,
     }
-    const budget = await Budget.findOneAndUpdate({
-      userId,
-      _id: budgetId
-    },
-    update,
-    { new: true }
+    const budget = await Budget.findOneAndUpdate(
+      {
+        userId,
+        _id: budgetId,
+      },
+      update,
+      { new: true }
     );
     if (budget) {
       res.json(budget);
@@ -71,7 +78,10 @@ const deleteBudget = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const budgetId = req.params.id;
-    const budget = await Budget.findOneAndDelete({ userId, _id: budgetId });
+    const budget = await Budget.findOneAndDelete({
+      userId,
+      _id: budgetId
+    });
     if (budget) {
       res.json(budget);
     } else {
