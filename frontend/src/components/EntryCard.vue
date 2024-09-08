@@ -3,7 +3,7 @@
         <div class="entry-header">
             <div class="description">
                 <h2>
-                    {{ description }}
+                    {{ entry.description }}
                 </h2>
 
                 <div class="actions">
@@ -11,18 +11,23 @@
                     <q-icon name="delete_sharp" size="sm" />
                 </div>
             </div>
-            <p>{{ price }}</p>
+            <p>{{ entry.price }}</p>
         </div>
 
         <div class="entry-content">
-            <p>{{ category }}</p>
-            <p>{{ date }}</p>
+            <p>{{ entry.category }}</p>
+            <p>{{ entry.date }}</p>
         </div>
     </div>
 </template>
 
 <script setup>
-const props = defineProps(['description', 'price', 'category', 'date']);
+const props = defineProps({
+    entry: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <style scoped>
