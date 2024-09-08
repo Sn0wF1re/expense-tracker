@@ -44,7 +44,7 @@ const createExpense = async (req, res, next) => {
 
     // save new expense
     await newExpense.save();
-    res.json(newExpense);
+    res.status(200).json(newExpense);
   } catch(err) {
     next(err);
   };
@@ -55,7 +55,7 @@ const getExpenses = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const expenses = await Expense.find({ userId });
-    res.json(expenses);
+    res.status(200).json(expenses);
   } catch(err) {
     next(err);
   }
@@ -68,7 +68,7 @@ const getExpense = async (req, res, next) => {
     const expenseId = req.params.id;
     const expense = await Expense.findOne({ userId, _id: expenseId });
     if (expense) {
-      res.json(expense)
+      res.status(200).json(expense)
     } else {
       res.status(404).json({ message: 'Expense not found!' })
     }
@@ -97,7 +97,7 @@ const updateExpense = async (req, res, next) => {
     if (!expense) {
       res.status(404).json({ message: 'Expense not found' });
     }
-    res.json(expense);
+    res.status(200).json(expense);
   } catch(err) {
     next(err);
   }
@@ -134,7 +134,7 @@ const deleteExpense = async (req, res, next) => {
     if (!deletedExpense) {
       res.status(404).json({ message: 'Expense not found' });
     }
-    res.json(deletedExpense);
+    res.status(200).json(deletedExpense);
   } catch(err) {
     next(err);
   }

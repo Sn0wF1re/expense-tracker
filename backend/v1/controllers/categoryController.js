@@ -19,7 +19,7 @@ const getCategories = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const categories = await Category.find({ userId });
-    res.json(categories);
+    res.status(200).json(categories);
   } catch(err) {
     next(err);
   }
@@ -35,7 +35,7 @@ const getCategory = async (req, res, next) => {
       _id: categoryId
     });
     if (category) {
-      res.json(category)
+      res.status(200).json(category)
     } else {
       res.status(404).json({ message: 'Category not found!' })
     }
@@ -61,7 +61,7 @@ const updateCategory = async (req, res, next) => {
       { new: true }
     );
     if (category) {
-      res.json(category);
+      res.status(200).json(category);
     } else {
       res.status(404).json({ message: 'Category not found' });
     }
@@ -81,7 +81,7 @@ const deleteCategory = async (req, res, next) => {
       _id: categoryId
     });
     if (category) {
-      res.json(category);
+      res.status(200).json(category);
     } else {
       res.status(404).json({ message: 'Category not found' });
     }

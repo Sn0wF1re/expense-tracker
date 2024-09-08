@@ -8,7 +8,7 @@ const createBudget = async (req, res, next) => {
       userId,
       budget: req.body.budget,
     });
-    res.json(newBudget);
+    res.status(200).json(newBudget);
   } catch(err) {
     next(err);
   }
@@ -22,7 +22,7 @@ const getBudgets = async (req, res, next) => {
     if (!budgets) {
       res.status(404).json({ message: 'Budgets not found!' });
     }
-    res.json(budgets);
+    res.status(200).json(budgets);
   } catch(err) {
     next(err);
   }
@@ -38,7 +38,7 @@ const getBudget = async (req, res, next) => {
       _id: budgetId
     });
     if (budget) {
-      res.json(budget)
+      res.status(200).json(budget)
     } else {
       res.status(404).json({ message: 'Budget not found!' })
     }
@@ -64,7 +64,7 @@ const updateBudget = async (req, res, next) => {
       { new: true }
     );
     if (budget) {
-      res.json(budget);
+      res.status(200).json(budget);
     } else {
       res.status(404).json({ message: 'Budget not found!' });
     }
@@ -83,7 +83,7 @@ const deleteBudget = async (req, res, next) => {
       _id: budgetId
     });
     if (budget) {
-      res.json(budget);
+      res.status(200).json(budget);
     } else {
       res.status(404).json({ message: 'Budget not found!' });
     }
