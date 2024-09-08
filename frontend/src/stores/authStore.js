@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = data;
       console.log('User:', user.value);
       LocalStorage.set('token', data.accessToken);
-      router.push('/home');
+      router.push('/expenses');
     } catch (error) {
       console.error('Login failed:', error.message);
     }
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     user.value = null;
     token.value = null;
-    localStorage.removeItem('token');
+    LocalStorage.remove('token');
     router.push('/login');
   };
 
