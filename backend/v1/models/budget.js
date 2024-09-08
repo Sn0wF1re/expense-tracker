@@ -1,4 +1,4 @@
-const {Model, Schema} = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const budgetSchema = new Schema({
     userId: {
@@ -15,7 +15,6 @@ const budgetSchema = new Schema({
     },
     month: {
         type: String,
-        required: true
     },
     expenses: [
         {
@@ -45,5 +44,5 @@ budgetSchema.pre('save', async function (next) {
     next();
 });
 
-const Budget = Model('Budget', budgetSchema);
+const Budget = model('Budget', budgetSchema);
 module.exports = Budget;
