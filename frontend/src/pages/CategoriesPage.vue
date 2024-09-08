@@ -9,7 +9,7 @@
 
     <div class="entries">
         <h2>Expense Categories</h2>
-        <CategoryEntry name="Fuel" date="2022-01-01" />
+        <CategoryEntry v-for="category in categories" :category="category" :key="category.id" />
     </div>
 </template>
 
@@ -17,6 +17,18 @@
 import AddCategoryForm from '../components/AddCategoryForm.vue';
 import AddBudgetForm from '../components/AddBudgetForm.vue';
 import CategoryEntry from '../components/CategoryEntry.vue';
+import { useCategoriesStore } from '../stores/categoriesStore';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { LocalStorage } from 'quasar';
+
+const categoriesStore = useCategoriesStore();
+const { categories } = storeToRefs(categoriesStore);
+
+onMounted(() => {
+    console.log(LocalStorage.getItem('token'));
+    categoriesStore.fetchCategories();
+});
 </script>
 
 <style scoped>
