@@ -35,7 +35,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useExpensesStore } from '../stores/expensesStore';
 
+const expensesStore = useExpensesStore();
 const label = ref('Add Expense');
 const isDialogOpen = ref(false);
 const expenseCategory = ref('');
@@ -43,9 +45,15 @@ const expenseDescription = ref('');
 const expenseAmount = ref('');
 
 const addExpense = () => {
-  // Handle adding expense logic here
-  console.log('Expense added:', expenseName.value, expenseAmount.value);
-  isDialogOpen.value = false;
+    // Handle adding expense logic here 
+    expensesStore.addExpense({
+        category: expenseCategory.value,
+        description: expenseDescription.value,
+        amount: expenseAmount.value
+    });
+    
+    console.log('Expense added:', expenseCategory.value, expenseAmount.value);
+    isDialogOpen.value = false;
 };
 
 const openDialog = () => {
