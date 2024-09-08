@@ -9,6 +9,17 @@ const routes = [
   },
 
   {
+    path: '/categories',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/CategoriesPage.vue')
+      }
+    ],
+  },
+
+  {
     path: '/',
     component: () => import('pages/SignupPage.vue'),
   },
