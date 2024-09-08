@@ -1,20 +1,53 @@
 const Expense = require('../models/expense');
+const Budget = require('../models/budget');
+const Category = require('../models/category');
 
 // create expense
 const createExpense = async (req, res, next) => {
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
   try {
-    const user = req.user;
-    console.log('user: ', req.user);
-    const newExpense = await Expense.create({
-      userId: user.id,
-      description: req.body.description,
-      amount: req.body.amount,
-      category: req.body.category,
+    const userId = req.user.id;
+    const { description, amount, category } = req.body;
+
+    // defer saving expense object by creating an instance instead of using create method
+    const newExpense = new Expense({
+      userId,
+      description,
+      amount,
+      category,
     });
+
+    // update budget
+    const budget = await Budget.findOneAndUpdate(
+      { userId, month: monthNames[new Date().getMonth()] },
+      { $push: { expenses: newExpense } },
+      { new: true }
+    );
+
+    if (!budget) {
+      return res.status(404).json({ message: 'Budget not found' });
+    }
+
+    // update category
+    const updatedCategory = await Category.findOneAndUpdate(
+      { userId, name: category },
+      { $push: { expenses: newExpense } },
+      { new: true }
+    );
+    if (!updatedCategory) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+
+    // save new expense
+    await newExpense.save();
     res.json(newExpense);
   } catch(err) {
     next(err);
-  }
+  };
 };
 
 // get all expenses
@@ -31,9 +64,9 @@ const getExpenses = async (req, res, next) => {
 // get one expense
 const getExpense = async (req, res, next) => {
   try {
-    const user = req.user;
+    const userId = req.user.id;
     const expenseId = req.params.id;
-    const expense = await Expense.findOne({ userId: user.id, _id: expenseId });
+    const expense = await Expense.findOne({ userId, _id: expenseId });
     if (expense) {
       res.json(expense)
     } else {
@@ -63,9 +96,8 @@ const updateExpense = async (req, res, next) => {
 
     if (!expense) {
       res.status(404).json({ message: 'Expense not found' });
-    } else {
-      res.json(expense);
     }
+    res.json(expense);
   } catch(err) {
     next(err);
   }
@@ -76,12 +108,33 @@ const deleteExpense = async (req, res, next) => {
   try {
     const userId = req.user.id;
     const expenseId = req.params.id;
-    const deletedExpense = await Expense.findOneAndDelete({ userId, expenseId });
+    
+    // remove expense from category
+    deleteFromCategory = await Category.findOneAndUpdate(
+      { userId, expenses: expenseId },
+      { $pull: { expenses: expenseId } }
+    );
+
+    if (!deleteFromCategory) {
+      return res.status(404).json({ message: 'Expense not found in category' });
+    };
+    
+    // remove expense from budget
+    deleteFromBudget = await Budget.findOneAndUpdate(
+      { userId, expenses: expenseId },
+      { $pull: { expenses: expenseId } }
+    );
+
+    if (!deleteFromBudget) {
+      return res.status(404).json({ message: 'Expense not found in budget' });
+    };
+
+    // delete expense
+    const deletedExpense = await Expense.findOneAndDelete({ userId, _id: expenseId });
     if (!deletedExpense) {
       res.status(404).json({ message: 'Expense not found' });
-    } else {
-      res.json(deletedExpense);
     }
+    res.json(deletedExpense);
   } catch(err) {
     next(err);
   }
