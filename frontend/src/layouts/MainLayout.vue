@@ -4,7 +4,7 @@
 
         <nav class="navigation">
             <a>Expenses</a>
-            <a>Categories</a>
+            <router-link to="/categories">Categories</router-link>
         </nav>
         <a class="logout" @click="logout">Log Out</a>
     </header>
