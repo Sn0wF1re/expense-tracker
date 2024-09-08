@@ -31,24 +31,29 @@
         </div>
     </div>
 
-    <AddExpenseForm v-model:isDialogOpen="isDialogOpen" />
+    <AddExpenseForm />
 
     <div class="entries">
-        <EntryCard description="Entry 1" price="$100" category="Fuel" date="2022-01-01" />
-        <EntryCard description="Entry 2" price="$200" category="Food" date="2022-01-01" />
-        <EntryCard description="Entry 3" price="$300" category="Entertainment" date="2022-01-01" />
+        <!-- <EntryCard description="Entry 1" price="$100" category="Fuel" date="2022-01-01" />
+        <EntryCard description="Entry 2" price="$200" category="Food" date="2022-01-01" /> -->
+        <EntryCard v-for="entry in expenses" :entry="entry" :key="entry.id" />
     </div>
 </template>
 
 <script setup>
 import EntryCard from '../components/EntryCard.vue';
 import AddExpenseForm from '../components/AddExpenseForm.vue';
-import { useAuthStore } from '../stores/authStore';
+import { useExpensesStore } from '../stores/expensesStore';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { LocalStorage } from 'quasar';
 
-const authStore = useAuthStore();
-const logout = () => {
-    authStore.logout();
-};
+const expensesStore = useExpensesStore();
+const { expenses } = storeToRefs(expensesStore);
+onMounted(() => {
+    console.log(LocalStorage.getItem('token'));
+    expensesStore.fetchExpenses();
+});
 </script>
 
 <style scoped>
