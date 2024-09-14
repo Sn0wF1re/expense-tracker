@@ -4,7 +4,7 @@
             <h2>Log In</h2>
             <input type="email" id="email" v-model="email" placeholder="Your email" required>
             <input type="password" id="password" v-model="password" placeholder="Your password" required>
-            <button type="submit">Log in</button>
+            <button type="submit" class="bg-accent">Log in</button>
 
             <div class="alternatives">
                 <p>
