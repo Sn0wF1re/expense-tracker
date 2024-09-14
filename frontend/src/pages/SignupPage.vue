@@ -10,7 +10,7 @@
             <input v-model="email" type="text" placeholder="Your email" id="email">
 
             <input v-model="password" type="password" placeholder="Your password" id="password">
-            <button type="submit">Sign up</button>
+            <button type="submit" class="bg-accent">Sign up</button>
             <p>
                 Already have an account?
                 <router-link to="/login">Log in instead</router-link>
