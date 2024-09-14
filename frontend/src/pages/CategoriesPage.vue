@@ -1,16 +1,21 @@
 <template>
-    <div class="budget">
+    <div class="forms">
         <AddBudgetForm />
-    </div>
-
-    <div class="categories">
         <AddCategoryForm />
     </div>
 
-    <div class="entries">
-        <h2>Expense Categories</h2>
-        <CategoryEntry v-for="category in categories" :category="category" :key="category.id" />
+    <h2>Categories</h2>
+
+    <div class="entries bg-primary">
+        <div v-if="categories.length === 0" class="loading">
+            <p class>No categories found</p>
+        </div>
+
+        <div v-else>
+            <CategoryEntry v-for="category in categories" :category="category" :key="category.id" />
+        </div>
     </div>
+
 </template>
 
 <script setup>
@@ -32,9 +37,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.entries {
-    h2 {
-        margin: 1.2rem;
-    }
+.forms {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+h2 {
+    margin: 1.2rem;
 }
 </style>
