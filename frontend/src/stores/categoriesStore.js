@@ -4,7 +4,7 @@ import { LocalStorage } from "quasar";
 
 export const useCategoriesStore = defineStore("categories", () => {
     const categories = ref([]);
-    const category = ref({});
+    const category = ref(null);
     const token = LocalStorage.getItem("token");
     const apiUrl = "http://localhost:3000/api/v1";
 
@@ -53,7 +53,8 @@ export const useCategoriesStore = defineStore("categories", () => {
             if (!response.ok) {
                 throw new Error("Error fetching category");
             }
-            category.value = await response.json();
+            const data = await response.json();
+            category.value = data;
         } catch (error) {
             console.log("Error fetching category", error);
         };
