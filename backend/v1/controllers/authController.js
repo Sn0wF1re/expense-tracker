@@ -60,7 +60,7 @@ const login = async (req, res) => {
     }
   
     const token = generateToken(user);
-    res.json({ message: 'Login successful!', accessToken: token, id: user.id, email: user.email });
+    res.json({ message: 'Login successful!', accessToken: token, id: user.id, firstName: user.firstName });
   }catch (err) {
     console.log(err);
     res.status(500).json({ error: 'Something went wrong' });
@@ -69,7 +69,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res.json({ accessToken: null, id: null, email: null, message: 'Logout successful!' });
+    res.json({ accessToken: null, id: null, firstName: null, message: 'Logout successful!' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'Something went wrong' });
