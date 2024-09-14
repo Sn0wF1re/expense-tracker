@@ -1,5 +1,5 @@
 <template>
-    <div class="create-category">
+    <div class="create-budget">
         <h2 @click="openDialog">
             {{ label }}
         </h2>
@@ -14,7 +14,7 @@
 
             <q-card-section>
                 <q-input v-model="budget" label="Amount" type="number" />
-                <q-select v-model="month" :options="options" label="Month" />
+                <q-select v-model="month" :options="validOptions" label="Month" />
             </q-card-section>
 
             <q-card-actions align="right">
@@ -47,6 +47,17 @@ const options = [
     { label: 'December', value: '11' },
 ];
 
+const getCurrentMonth = () => {
+    const date = new Date();
+    console.log(date.getMonth());
+    return date.getMonth();
+};
+
+const validOptions = options.filter(option => option.value >= getCurrentMonth());
+
+
+
+
 const addExpense = () => {
   // Handle adding expense logic here
   console.log('Expense added:', expenseName.value, expenseAmount.value);
@@ -59,14 +70,23 @@ const openDialog = () => {
 </script>
 
 <style scoped>
-.create-category {
+.create-budget {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    padding-left: 0.5rem;
     
     h2, i {
         cursor: pointer;
     }
+
+    h2:hover {
+        color: #e6b272;
+    }
+}
+
+.create-budget:hover {
+    color:#e6b272;
 }
 </style>
