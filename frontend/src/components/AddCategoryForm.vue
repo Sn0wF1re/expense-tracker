@@ -48,9 +48,18 @@ const openDialog = () => {
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    padding-left: 0.5rem;
     
     h2, i {
         cursor: pointer;
     }
+
+    h2:hover {
+        color: #e6b272;
+    }
+}
+
+.create-category:hover {
+    color: #e6b272;
 }
 </style>
