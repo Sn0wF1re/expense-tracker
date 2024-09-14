@@ -11,28 +11,38 @@
                     <q-icon name="delete_sharp" size="sm" />
                 </div>
             </div>
-            <p>{{ entry.price }}</p>
+            <p class="price text-negative">- Kes {{ entry.amount }}</p>
         </div>
 
         <div class="entry-content">
             <p>{{ entry.category }}</p>
-            <p>{{ entry.date }}</p>
+            <p>{{ formattedDate }}</p>
         </div>
     </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
 const props = defineProps({
     entry: {
         type: Object,
         required: true
     }
 });
+
+const formattedDate = computed(() => {
+    const date = new Date(props.entry.date);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+});
 </script>
 
 <style scoped>
 .entry {
-    background-color: #f0f0f0;
+    background-color: #fff;
     padding: 0.25rem 0.5rem;
     margin: 1rem;
     border-radius: 0.5rem;
@@ -60,7 +70,7 @@ const props = defineProps({
         }
         p {
             margin: 0;
-            color: #E06336;
+            /* color: #FFA259; */
         }
     }
 
@@ -68,6 +78,7 @@ const props = defineProps({
         display: flex;
         justify-content: space-between;
         align-items: center;
+        color: #666;
     }
 }
 </style>
