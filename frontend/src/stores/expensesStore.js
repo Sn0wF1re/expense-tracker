@@ -4,7 +4,7 @@ import { ref } from 'vue';
 
 export const useExpensesStore = defineStore('expenses', () => {
     const expenses = ref([]);
-    const expense = ref({});
+    const expense = ref(null);
     const token = LocalStorage.getItem('token');
     const apiUrl = 'http://localhost:3000/api/v1';
 
@@ -97,6 +97,7 @@ export const useExpensesStore = defineStore('expenses', () => {
 
     return {
         expenses,
+        expense,
         addExpense,
         fetchExpenses,
         fetchExpense,
