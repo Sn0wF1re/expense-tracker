@@ -1,22 +1,24 @@
 
 const routes = [
   {
-    path: '/expenses',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/HomePage.vue') }
-    ]
-  },
-
-  {
-    path: '/categories',
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
-        path: '',
-        component: () => import('pages/CategoriesPage.vue')
+        path: 'expenses',
+        component: () => import('pages/HomePage.vue'),
+      },
+      {
+        path: 'categories',
+        component: () => import('pages/CategoriesPage.vue'),
+      },
+      {
+        path: 'categories/:categoryId',
+        name: 'category',
+        component: () => import('pages/CategoryPage.vue'),
+        props: true,
       }
-    ],
+    ]
   },
 
   {
@@ -28,6 +30,7 @@ const routes = [
     path: '/login',
     component: () => import('pages/LoginPage.vue'),
   },
+
 
   // {
   //   path: '/home',
