@@ -20,7 +20,7 @@
             </q-card-section>
 
             <q-card-section>
-                <q-input v-model="expenseCategory" label="Category" />
+                <q-select v-model="expenseCategory" label="Category" :options="options" />
                 <q-input v-model="expenseDescription" label="Description" />
                 <q-input v-model="expenseAmount" label="Amount" type="number" />
             </q-card-section>
@@ -34,15 +34,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useExpensesStore } from '../stores/expensesStore';
+import { useCategoriesStore } from '../stores/categoriesStore';
 
 const expensesStore = useExpensesStore();
+const categoriesStore = useCategoriesStore();
 const label = ref('Add Expense');
 const isDialogOpen = ref(false);
 const expenseCategory = ref('');
 const expenseDescription = ref('');
 const expenseAmount = ref('');
+const { categories } = storeToRefs(categoriesStore);
+const options = categories.value.map(category => category.name);
 
 const addExpense = () => {
     // Handle adding expense logic here 
@@ -59,6 +64,10 @@ const addExpense = () => {
 const openDialog = () => {
   isDialogOpen.value = true;
 };
+
+onMounted(() => {
+    categoriesStore.fetchCategories();
+});
 </script>
 
 <style scoped>
@@ -70,6 +79,15 @@ const openDialog = () => {
     
     h2, i {
         cursor: pointer;
+        /* color: #E6B272; */
     }
+
+    h2:hover{
+        color: #e6b272;
+    }
+}
+
+.create-expense:hover {
+    color: #e6b272;
 }
 </style>
