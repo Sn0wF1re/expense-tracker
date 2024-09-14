@@ -5,8 +5,6 @@ import { LocalStorage } from 'quasar';
 import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null);
-  const token = ref(null);
   const router = useRouter();
   const apiUrl = 'http://localhost:3000/api/v1/auth';
 
@@ -24,10 +22,11 @@ export const useAuthStore = defineStore('auth', () => {
         throw new Error(data.error || 'Login failed');
       }
       console.log('Login successful:', data);
-      token.value = data.accessToken;
-      user.value = data;
-      console.log('User:', user.value);
+      // token.value = data.accessToken;
+      // user.value = data;
+      // console.log('User:', user.value);
       LocalStorage.set('token', data.accessToken);
+      LocalStorage.set('firstName', data.firstName);
       router.push('/expenses');
     } catch (error) {
       console.error('Login failed:', error.message);
@@ -56,15 +55,12 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const logout = () => {
-    user.value = null;
-    token.value = null;
     LocalStorage.remove('token');
+    LocalStorage.remove('firstName');
     router.push('/login');
   };
 
   return {
-    user,
-    token,
     login,
     register,
     logout,
