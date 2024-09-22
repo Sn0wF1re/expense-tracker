@@ -24,7 +24,19 @@ const userSchema = new Schema({
         type: String,
         required: true,
         min: 6
-    }
+    },
+    confirmationToken: {
+      type: String,
+      default: null
+    },
+    resetToken: {
+      type: String,
+      default: null
+    },
+    isActive: {
+      type: Boolean,
+      default: false
+    },
 },
 { timestamps: true }
 );
