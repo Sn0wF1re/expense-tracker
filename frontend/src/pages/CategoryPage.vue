@@ -32,7 +32,6 @@ const categoryId = ref(props.categoryId);
 const categoryExpenses = ref([]);
 const categoryName = ref('');
 const expenses = ref([]);
-const { expense } = storeToRefs(expensesStore); 
 
 onMounted(async() => {
     await categoriesStore.fetchCategory(categoryId.value);
