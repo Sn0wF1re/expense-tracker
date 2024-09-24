@@ -9,7 +9,7 @@ router.post('/', budgetController.createBudget);
 router.get('/', budgetController.getBudgets);
 
 // Get one budget
-router.get('/:id', budgetController.getBudget);
+router.get('/:month', budgetController.getBudget);
 
 // update a budget
 router.put('/:id', budgetController.updateBudget);
