@@ -22,7 +22,7 @@ const routes = [
   },
 
   {
-    path: '/',
+    path: '/register',
     component: () => import('pages/SignupPage.vue'),
   },
 
@@ -31,6 +31,22 @@ const routes = [
     component: () => import('pages/LoginPage.vue'),
   },
 
+  {
+    path: '/reset',
+    component: () => import('pages/ResetPassword.vue'),
+  },
+
+  {
+    path: '/update-password/',
+    component: () => import('pages/UpdatePassword.vue'),
+    props: route => ({ token: route.query.token }),
+  },
+
+  {
+    path: '/confirm',
+    component: () => import('pages/ConfirmEmail.vue'),
+    props: route => ({ token: route.query.token }),
+  },
 
   // {
   //   path: '/home',
