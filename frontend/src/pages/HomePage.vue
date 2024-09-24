@@ -17,17 +17,17 @@
     <div class="budget">
         <div class="card limit bg-accent">
             <h2>Budget</h2>
-            <p>$3000</p>
+            <p v-if="budget">${{ budget.budget }}</p>
         </div>
 
         <div class="card spent bg-accent">
             <h2>Total spent</h2>
-            <p>$1000</p>
+            <p>$ 1000</p>
         </div>
 
         <div class="card balance bg-accent">
             <h2>Balance</h2>
-            <p>$2000</p>
+            <p>$ 2000</p>
         </div>
     </div>
 
@@ -50,17 +50,23 @@
 import EntryCard from '../components/EntryCard.vue';
 import AddExpenseForm from '../components/AddExpenseForm.vue';
 import { useExpensesStore } from '../stores/expensesStore';
+import { useBudgetStore } from '../stores/budgetStore';
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { LocalStorage } from 'quasar';
 
 const expensesStore = useExpensesStore();
+const budgetStore = useBudgetStore();
 
 const firstName = ref(LocalStorage.getItem('firstName'));
 const { expenses } = storeToRefs(expensesStore);
+const { budget } = storeToRefs(budgetStore);
 
-onMounted(() => {
-    expensesStore.fetchExpenses();
+
+onMounted(async () => {
+    await budgetStore.fetchBudget();
+    console.log('budget:', budget.value);
+    await expensesStore.fetchExpenses();
 });
 </script>
 
