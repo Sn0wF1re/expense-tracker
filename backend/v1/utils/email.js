@@ -3,6 +3,7 @@ const { createTransport } = require('nodemailer');
 
 const { EMAIL, PASSWORD } = process.env;
 const company = 'WapiDoh';
+const baseUrl = 'http://localhost:9000';
 
 // initialize nodemailer
 const transporter = createTransport({
@@ -30,7 +31,7 @@ const transporter = createTransport({
 
 // send confirmation email
 const sendConfirmationEmail = async (user, confirmationToken) => {
-    const url = `http://localhost:3000/api/v1/confirm/${confirmationToken}`;
+    const url = `${baseUrl}/confirm/?token=${confirmationToken}`;
     const mailOptions = {
         from: EMAIL,
         to: user.email,
@@ -52,7 +53,7 @@ const sendConfirmationEmail = async (user, confirmationToken) => {
 
 // send password reset email
 const sendPasswordResetEmail = async (user, resetToken) => {
-    const url = `http://localhost:3000/api/v1/reset/${resetToken}`;
+    const url = `${baseUrl}/update-password/?token=${resetToken}`;
     const mailOptions = {
         from: EMAIL,
         to: user.email,
