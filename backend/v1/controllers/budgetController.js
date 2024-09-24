@@ -32,10 +32,10 @@ const getBudgets = async (req, res, next) => {
 const getBudget = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const budgetId = req.params.id;
+    const month = req.params.month;
     const budget = await Budget.findOne({
       userId,
-      _id: budgetId
+      month
     });
     if (budget) {
       res.status(200).json(budget)
