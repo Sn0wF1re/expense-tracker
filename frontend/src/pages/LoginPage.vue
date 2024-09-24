@@ -14,7 +14,7 @@
 
                 <p>
                     Don't have an account?
-                    <router-link to="/">Sign up instead</router-link>
+                    <router-link to="/register">Sign up instead</router-link>
                 </p>
             </div>
         </form>
