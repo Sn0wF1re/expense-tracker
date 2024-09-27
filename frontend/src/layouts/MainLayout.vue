@@ -4,8 +4,8 @@
             <h2>WapiDoh</h2>
     
             <nav class="navigation">
-                <router-link to="/expenses">Expenses</router-link>
-                <router-link to="/categories">Categories</router-link>
+                <router-link to="/app/expenses">Expenses</router-link>
+                <router-link to="/app/categories">Categories</router-link>
             </nav>
             <a class="logout" @click="logout">Log Out</a>
         </header>
