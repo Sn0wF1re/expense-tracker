@@ -12,8 +12,8 @@
 
         <form v-else @submit.prevent="handleUpdate">
             <h2>Update Password</h2>
-            <input type="text" id="password" v-model="newPassword" placeholder="Your new password" required>
-            <input type="text" id="password" v-model="confirmPassword" placeholder="Confirm new password" required>
+            <input type="password" id="password" v-model="newPassword" placeholder="Your new password" required>
+            <input type="password" id="password" v-model="confirmPassword" placeholder="Confirm new password" required>
             <button type="submit" class="bg-accent">Update</button>
             <router-link to="/login">Go to login</router-link>
         </form>
