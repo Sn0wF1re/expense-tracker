@@ -1,12 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { LocalStorage } from "quasar";
 
 export const useCategoriesStore = defineStore("categories", () => {
     const categories = ref([]);
     const category = ref(null);
-    const token = LocalStorage.getItem("token");
-    const apiUrl = "http://localhost:3000/api/v1";
+    const baseUrl = meta.env.VITE_BASE_URL;
+    const apiUrl = `${baseUrl}/api/v1`;
 
     const addCategory = async (category) => {
         try {

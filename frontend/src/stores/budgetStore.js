@@ -3,7 +3,8 @@ import { ref } from "vue";
 
 export const useBudgetStore = defineStore("budget", () => {
     const budget = ref(null);
-    const apiUrl = "http://localhost:3000/api/v1";
+    const baseUrl = meta.env.VITE_BASE_URL;
+    const apiUrl = `${baseUrl}/api/v1`;
 
     const addBudget = async (budget) => {
         try {

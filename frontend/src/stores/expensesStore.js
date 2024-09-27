@@ -4,7 +4,8 @@ import { ref, computed } from 'vue';
 export const useExpensesStore = defineStore('expenses', () => {
     const expenses = ref([]);
     const expense = ref(null);
-    const apiUrl = 'http://localhost:3000/api/v1';
+    const baseUrl = meta.env.VITE_BASE_URL;
+    const apiUrl = `${baseUrl}/api/v1`;
 
     const expenditure = computed(() => {
         return expenses.value.reduce((total, expense) => {
@@ -21,6 +22,7 @@ export const useExpensesStore = defineStore('expenses', () => {
                 },
                 body: JSON.stringify(expense),
             });
+            
             if (!response.ok) {
                 throw new Error('Error adding expense');
             }
