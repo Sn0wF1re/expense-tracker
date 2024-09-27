@@ -11,7 +11,7 @@
         </div>
 
         <div v-else>
-            <AddBudgetForm />  
+            <CustomBudgetForm />  
         </div>
     </div>
     
@@ -23,7 +23,7 @@
             </div>
 
             <div v-else>
-                <AddBudgetForm />
+                <CustomBudgetForm />
             </div>
         </div>
 
@@ -60,7 +60,7 @@
 <script setup>
 import EntryCard from '../components/EntryCard.vue';
 import AddExpenseForm from '../components/AddExpenseForm.vue';
-import AddBudgetForm from '../components/AddBudgetForm.vue';
+import CustomBudgetForm from '../components/CustomBudgetForm.vue';
 import { useExpensesStore } from '../stores/expensesStore';
 import { useBudgetStore } from '../stores/budgetStore';
 import { onMounted, ref, computed } from 'vue';
