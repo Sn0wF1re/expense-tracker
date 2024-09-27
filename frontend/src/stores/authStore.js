@@ -1,13 +1,17 @@
 // src/stores/authStore.js
 import { defineStore } from 'pinia';
 import { useRouter } from 'vue-router';
-import { LocalStorage } from 'quasar';
+import { Cookies } from 'quasar';
 import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
   const apiUrl = 'http://localhost:3000/api/v1/auth';
   const emailConfirmed = ref('loading');
+  const resetSuccess = ref('loading');
+  const updatedPassword = ref('loading');
+  const registrationSuccess = ref('loading');
+  const loginSuccess = ref('loading');
 
   const login = async (email, password) => {
     try {
@@ -22,14 +26,14 @@ export const useAuthStore = defineStore('auth', () => {
       if (!response.ok) {
         throw new Error(data.error || 'Login failed');
       }
-      console.log('Login successful:', data);
-      // token.value = data.accessToken;
-      // user.value = data;
-      // console.log('User:', user.value);
-      LocalStorage.set('token', data.accessToken);
-      LocalStorage.set('firstName', data.firstName);
-      router.push('/expenses');
+      loginSuccess.value = 'success';
+      Cookies.set('token', data.accessToken, {
+        secure: true
+      });
+      Cookies.set('firstName', data.firstName);
+      router.push('/app/expenses');
     } catch (error) {
+      loginSuccess.value = 'error';
       console.error('Login failed:', error.message);
     }
   };
@@ -47,10 +51,9 @@ export const useAuthStore = defineStore('auth', () => {
       if (!response.ok) {
         throw new Error(data.error || 'Registration failed');
       }
-      console.log('Registration successful:', data);
-      // Optionally, log the user in after registration
-      await login(email, password);
+      registrationSuccess.value = 'success';
     } catch (error) {
+      registrationSuccess.value = 'error';
       console.error('Registration failed:', error.message);
     }
   };
@@ -75,7 +78,9 @@ export const useAuthStore = defineStore('auth', () => {
         },
         body: JSON.stringify({ email })
       });
+      resetSuccess.value = 'success';
     } catch (error) {
+      resetSuccess.value = 'error';
       console.error('Password reset request failed:', error.message);
     }
   };
@@ -90,18 +95,25 @@ export const useAuthStore = defineStore('auth', () => {
         },
         body: JSON.stringify({ password: newPassword })
       });
+      updatedPassword.value = 'success';
     } catch (error) {
       console.error('Password reset failed:', error.message);
+      updatedPassword.value = 'error';
     }
   };
 
   const logout = () => {
-    LocalStorage.remove('token');
-    LocalStorage.remove('firstName');
-    router.push('/login');
+    Cookies.remove('token');
+    Cookies.remove('firstName');
+    window.location.href = '/login';
   };
 
   return {
+    emailConfirmed,
+    resetSuccess,
+    updatedPassword,
+    registrationSuccess,
+    loginSuccess,
     login,
     register,
     confirmEmail,
