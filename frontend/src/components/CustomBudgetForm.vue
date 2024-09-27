@@ -74,7 +74,6 @@ const openDialog = () => {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-left: 0.5rem;
     
     h2, i {
         cursor: pointer;
