@@ -13,8 +13,7 @@ export const useCategoriesStore = defineStore("categories", () => {
             const response = await fetch(`${apiUrl}/categories`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(category),
             });
@@ -29,11 +28,7 @@ export const useCategoriesStore = defineStore("categories", () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(`${apiUrl}/categories`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                }
-            });
+            const response = await fetch(`${apiUrl}/categories`);
             if (!response.ok) {
                 throw new Error("Error fetching categories");
             }
@@ -45,11 +40,7 @@ export const useCategoriesStore = defineStore("categories", () => {
 
     const fetchCategory = async (id) => {
         try {
-            const response = await fetch(`${apiUrl}/categories/${id}`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                }
-            });
+            const response = await fetch(`${apiUrl}/categories/${id}`);
             if (!response.ok) {
                 throw new Error("Error fetching category");
             }

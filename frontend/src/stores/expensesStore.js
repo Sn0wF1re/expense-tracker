@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
-import { LocalStorage } from 'quasar';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 export const useExpensesStore = defineStore('expenses', () => {
     const expenses = ref([]);
     const expense = ref(null);
-    const token = LocalStorage.getItem('token');
     const apiUrl = 'http://localhost:3000/api/v1';
+
+    const expenditure = computed(() => {
+        return expenses.value.reduce((total, expense) => {
+            return total + expense.amount;
+        }, 0);
+    });
 
     const addExpense = async (expense) => {
         try {
@@ -14,7 +18,6 @@ export const useExpensesStore = defineStore('expenses', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(expense),
             });
@@ -29,15 +32,16 @@ export const useExpensesStore = defineStore('expenses', () => {
 
     const fetchExpenses = async () => {
         try {            
-            const response = await fetch(`${apiUrl}/expenses`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
+            const response = await fetch(`${apiUrl}/expenses`);
             if (!response.ok) {
                 throw new Error('Error fetching expenses');
             }
-            expenses.value = await response.json();
+            const data = await response.json();
+            const currentMonth = new Date().getMonth();
+            expenses.value = data.filter(expense => {
+                const expenseMonth = (new Date(expense.date)).getMonth();
+                return expenseMonth === currentMonth;
+            });
         } catch (error) {
             console.log('Error fetching expenses', error);
         };
@@ -45,11 +49,7 @@ export const useExpensesStore = defineStore('expenses', () => {
 
     const fetchExpense = async (id) => {
         try {
-            const response = await fetch(`${apiUrl}/expenses/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
+            const response = await fetch(`${apiUrl}/expenses/${id}`);
             if (!response.ok) {
                 throw new Error('Error fetching expense');
             }
@@ -65,7 +65,6 @@ export const useExpensesStore = defineStore('expenses', () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(expense),
             });
@@ -82,9 +81,6 @@ export const useExpensesStore = defineStore('expenses', () => {
         try {
             const response = await fetch(`${apiUrl}/expenses/${id}`, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
             });
             if (!response.ok) {
                 throw new Error('Error deleting expense');
@@ -98,6 +94,7 @@ export const useExpensesStore = defineStore('expenses', () => {
     return {
         expenses,
         expense,
+        expenditure,
         addExpense,
         fetchExpenses,
         fetchExpense,

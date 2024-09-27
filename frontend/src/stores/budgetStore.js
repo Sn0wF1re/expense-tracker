@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { LocalStorage } from "quasar";
-
-const token = LocalStorage.getItem("token");
 
 export const useBudgetStore = defineStore("budget", () => {
     const budget = ref(null);
@@ -14,7 +11,6 @@ export const useBudgetStore = defineStore("budget", () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify(budget),
             });
@@ -36,15 +32,12 @@ export const useBudgetStore = defineStore("budget", () => {
         const currentMonth = monthNames[new Date().getMonth()];
 
         try {
-            const response = await fetch(`${apiUrl}/budgets/${currentMonth}`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                }
-            });
+            const response = await fetch(`${apiUrl}/budgets/${currentMonth}`);
             if (!response.ok) {
                 throw new Error("Error fetching budget");
             }
-            budget.value = await response.json();
+            const data = await response.json();
+            budget.value = data.budget;
         } catch (error) {
             console.log("Error fetching budget", error);
         };
