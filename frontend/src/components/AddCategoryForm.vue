@@ -53,13 +53,5 @@ const openDialog = () => {
     h2, i {
         cursor: pointer;
     }
-
-    h2:hover {
-        color: #e6b272;
-    }
-}
-
-.create-category:hover {
-    color: #e6b272;
 }
 </style>

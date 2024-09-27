@@ -80,13 +80,5 @@ const openDialog = () => {
     h2, i {
         cursor: pointer;
     }
-
-    h2:hover {
-        color: #e6b272;
-    }
-}
-
-.create-budget:hover {
-    color:#e6b272;
 }
 </style>

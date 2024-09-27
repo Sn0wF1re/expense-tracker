@@ -81,13 +81,5 @@ onMounted(() => {
         cursor: pointer;
         /* color: #E6B272; */
     }
-
-    h2:hover{
-        color: #e6b272;
-    }
-}
-
-.create-expense:hover {
-    color: #e6b272;
 }
 </style>
