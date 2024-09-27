@@ -1,6 +1,16 @@
 <template>
     <div class="auth-card">
-        <form @submit.prevent="handleUpdate">
+        <div v-if="updatedPassword === 'success'" class="feedback">
+            <h2>Password updated successfully</h2>
+            <router-link to="/login">Go to login</router-link>
+        </div>
+
+        <div v-else-if="updatedPassword === 'error'" class="feedback">
+            <h2>Password update failed</h2>
+            <router-link to="/reset">Try again</router-link>
+        </div>
+
+        <form v-else @submit.prevent="handleUpdate">
             <h2>Update Password</h2>
             <input type="text" id="password" v-model="newPassword" placeholder="Your new password" required>
             <input type="text" id="password" v-model="confirmPassword" placeholder="Confirm new password" required>
@@ -13,6 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/authStore';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps ({
     token: {
@@ -25,6 +36,7 @@ const confirmPassword = ref('');
 const authStore = useAuthStore();
 
 const resetToken = props.token;
+const { updatedPassword } = storeToRefs(authStore);
 
 const handleUpdate = async () => {
     if (newPassword.value !== confirmPassword.value) {

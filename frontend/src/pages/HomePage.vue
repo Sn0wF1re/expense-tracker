@@ -1,41 +1,52 @@
 <template>
-    <!-- <div class="header">
-        <h2>WapiDoh</h2>
-        <a class="logout" @click="logout">Log Out</a>
-    </div> -->
-
     <div class="welcome">
         <h2>Hello, <span class="username text-secondary">{{ firstName }}</span></h2>
         <p>Here is your budget overview</p>
     </div>
 
     <div class="card mobile-limit bg-accent">
-        <h2>Budget</h2>
-        <p>$3000</p>
+        <div v-if="budget">
+            <h2>Budget</h2>
+            <p>${{ budget.budget }}</p>
+        </div>
+
+        <div v-else>
+            <AddBudgetForm />  
+        </div>
     </div>
     
     <div class="budget">
         <div class="card limit bg-accent">
-            <h2>Budget</h2>
-            <p v-if="budget">${{ budget.budget }}</p>
+            <div v-if="budget">
+                <h2>Budget</h2>
+                <p>Kes {{ budget }}</p>
+            </div>
+
+            <div v-else>
+                <AddBudgetForm />
+            </div>
         </div>
 
         <div class="card spent bg-accent">
-            <h2>Total spent</h2>
-            <p>$ 1000</p>
+            <div>
+                <h2>Total spent</h2>
+                <p v-if="expenditure">Kes {{ expenditure }}</p>
+                <p v-else>Kes 0</p>
+            </div>
         </div>
 
         <div class="card balance bg-accent">
-            <h2>Balance</h2>
-            <p>$ 2000</p>
+            <div>
+                <h2>Balance</h2>
+                <p v-if="balance">Kes {{ balance }}</p>
+                <p v-else>Kes 0</p>
+            </div>
         </div>
     </div>
 
     <AddExpenseForm />
 
     <div class="entries bg-primary">
-        <!-- <EntryCard description="Entry 1" price="$100" category="Fuel" date="2022-01-01" />
-        <EntryCard description="Entry 2" price="$200" category="Food" date="2022-01-01" /> -->
         <div v-if="expenses.length==0" class="loading">
             <p>No expenses found</p>
         </div>
@@ -49,19 +60,21 @@
 <script setup>
 import EntryCard from '../components/EntryCard.vue';
 import AddExpenseForm from '../components/AddExpenseForm.vue';
+import AddBudgetForm from '../components/AddBudgetForm.vue';
 import { useExpensesStore } from '../stores/expensesStore';
 import { useBudgetStore } from '../stores/budgetStore';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { LocalStorage } from 'quasar';
+import { Cookies } from 'quasar';
 
 const expensesStore = useExpensesStore();
 const budgetStore = useBudgetStore();
 
-const firstName = ref(LocalStorage.getItem('firstName'));
+const firstName = ref(Cookies.get('firstName'));
 const { expenses } = storeToRefs(expensesStore);
+const { expenditure } = storeToRefs(expensesStore);
 const { budget } = storeToRefs(budgetStore);
-
+const balance = computed(() => budget.value - expenditure.value);
 
 onMounted(async () => {
     await budgetStore.fetchBudget();

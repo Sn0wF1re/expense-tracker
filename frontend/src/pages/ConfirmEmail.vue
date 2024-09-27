@@ -1,5 +1,5 @@
 <template>
-    <div v-if="emailConfirmed=='loading'">
+    <div v-if="emailConfirmed=='loading'" class="feedback">
         <h2>Confirming email</h2>
         <p>Please wait...</p>
     </div>

@@ -1,6 +1,15 @@
 <template>
     <div class="auth-card">
-        <form @submit.prevent="handleLogin">
+        <div class="feedback" v-if="loginSuccess === 'success'">
+            <h2>Login successful</h2>
+        </div>
+
+        <div class="feedback" v-else-if="loginSuccess === 'error'">
+            <h2>Login failed</h2>
+            <router-link to="/login" @click.prevent="reloadPage">Try again</router-link>
+        </div>
+
+        <form @submit.prevent="handleLogin" v-else>
             <h2>Log In</h2>
             <input type="email" id="email" v-model="email" placeholder="Your email" required>
             <input type="password" id="password" v-model="password" placeholder="Your password" required>
@@ -14,7 +23,7 @@
 
                 <p>
                     Don't have an account?
-                    <router-link to="/register">Sign up instead</router-link>
+                    <router-link to="/">Sign up instead</router-link>
                 </p>
             </div>
         </form>
@@ -23,37 +32,23 @@
 
 <script setup>
 import { ref } from 'vue';
-// import { supabase } from '../lib/supabaseClient';
-import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/authStore';
 
 const email = ref('');
 const password = ref('');
-const router = useRouter();
 const authStore = useAuthStore();
+const { loginSuccess } = storeToRefs(authStore);
 
 const handleLogin = async () => {
     await authStore.login(email.value, password.value);
 };
 
-// const handleLogin = async () => {
-//     try {
-//         const { data, error } = await supabase.auth.signInWithPassword({
-//             email: email.value,
-//             password: password.value
-//         })
-
-//         if (error) {
-//             console.log(error.message);
-//             alert('Wrong email or password');
-//         } else {
-//             console.log('data:', data)
-//             router.push('/tasks');
-//         }
-//     } catch (error) {
-//         console.log('Error encountered while logging in:', error);
-//     }
-// };
+const reloadPage = () => {
+    loginSuccess.value = 'loading';
+    email.value = '';
+    password.value = '';
+};
 </script>
 
 <style scoped>
