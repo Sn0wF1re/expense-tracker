@@ -4,7 +4,7 @@ import { ref, computed } from 'vue';
 export const useExpensesStore = defineStore('expenses', () => {
     const expenses = ref([]);
     const expense = ref(null);
-    const baseUrl = meta.env.VITE_BASE_URL;
+    const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
 
     const expenditure = computed(() => {

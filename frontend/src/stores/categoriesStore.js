@@ -4,7 +4,7 @@ import { ref } from "vue";
 export const useCategoriesStore = defineStore("categories", () => {
     const categories = ref([]);
     const category = ref(null);
-    const baseUrl = meta.env.VITE_BASE_URL;
+    const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
 
     const addCategory = async (category) => {

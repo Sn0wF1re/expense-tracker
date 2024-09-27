@@ -6,7 +6,7 @@ import { ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
-  const baseUrl = meta.env.VITE_BASE_URL;
+  const baseUrl = process.env.BASE_URL;
   const apiUrl = `${baseUrl}/api/v1/auth`;
   const emailConfirmed = ref('loading');
   const resetSuccess = ref('loading');
