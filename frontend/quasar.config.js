@@ -69,7 +69,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        BASE_URL: 'https://expense-tracker-pff5.onrender.com'
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
