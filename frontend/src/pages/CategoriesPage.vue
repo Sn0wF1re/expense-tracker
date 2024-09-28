@@ -1,7 +1,12 @@
 <template>
     <div class="forms">
-        <AddBudgetForm />
-        <AddCategoryForm />
+        <div class="card bg-accent">
+            <AddBudgetForm />
+        </div>
+
+        <div class="card bg-accent">
+            <AddCategoryForm />
+        </div>
     </div>
 
     <h2>Categories</h2>
@@ -40,10 +45,21 @@ onMounted(() => {
 .forms {
     display: flex;
     justify-content: center;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 h2 {
     margin: 1.2rem;
+}
+
+@media (max-width: 850px) {
+    .forms {
+        flex-direction: column;
+        gap: 1rem;
+
+        .card {
+            width: 92vw;
+        }
+    }
 }
 </style>
