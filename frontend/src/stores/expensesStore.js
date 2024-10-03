@@ -7,6 +7,7 @@ export const useExpensesStore = defineStore('expenses', () => {
     const expense = ref(null);
     const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
+    const token = Cookies.get('token');
 
     const expenditure = computed(() => {
         return expenses.value.reduce((total, expense) => {
@@ -20,8 +21,8 @@ export const useExpensesStore = defineStore('expenses', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
-                credentials: 'include',
                 body: JSON.stringify(expense),
             });
             
@@ -37,7 +38,9 @@ export const useExpensesStore = defineStore('expenses', () => {
     const fetchExpenses = async () => {
         try {            
             const response = await fetch(`${apiUrl}/expenses`, {
-                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             });
             if (!response.ok) {
                 throw new Error('Error fetching expenses');
@@ -56,7 +59,9 @@ export const useExpensesStore = defineStore('expenses', () => {
     const fetchExpense = async (id) => {
         try {
             const response = await fetch(`${apiUrl}/expenses/${id}`, {
-                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             });
             if (!response.ok) {
                 throw new Error('Error fetching expense');
@@ -73,8 +78,8 @@ export const useExpensesStore = defineStore('expenses', () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
-                credentials: 'include',
                 body: JSON.stringify(expense),
             });
             if (!response.ok) {
@@ -90,7 +95,9 @@ export const useExpensesStore = defineStore('expenses', () => {
         try {
             const response = await fetch(`${apiUrl}/expenses/${id}`, {
                 method: 'DELETE',
-                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             });
             if (!response.ok) {
                 throw new Error('Error deleting expense');

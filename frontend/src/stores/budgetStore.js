@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
+import { Cookies } from "quasar";
 import { ref } from "vue";
 
 export const useBudgetStore = defineStore("budget", () => {
     const budget = ref(null);
     const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
+    const token = Cookies.get("token");
 
     const addBudget = async (budget) => {
         try {
@@ -12,8 +14,8 @@ export const useBudgetStore = defineStore("budget", () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
                 },
-                credentials: "include",
                 body: JSON.stringify(budget),
             });
             if (!response.ok) {
@@ -35,7 +37,9 @@ export const useBudgetStore = defineStore("budget", () => {
 
         try {
             const response = await fetch(`${apiUrl}/budgets/${currentMonth}`, {
-                credentials: "include",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
             });
             if (!response.ok) {
                 throw new Error("Error fetching budget");
