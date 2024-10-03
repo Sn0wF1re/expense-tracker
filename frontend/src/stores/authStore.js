@@ -29,9 +29,13 @@ export const useAuthStore = defineStore('auth', () => {
       }
       loginSuccess.value = 'success';
       Cookies.set('token', data.accessToken, {
-        secure: true
+        secure: true,
+        sameSite: 'Lax',
       });
-      Cookies.set('firstName', data.firstName);
+      Cookies.set('firstName', data.firstName, {
+        secure: true,
+        sameSite: 'Lax',
+      });
       router.push('/app/expenses');
     } catch (error) {
       loginSuccess.value = 'error';

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { Cookies } from 'quasar';
 
 export const useExpensesStore = defineStore('expenses', () => {
     const expenses = ref([]);
@@ -20,6 +21,7 @@ export const useExpensesStore = defineStore('expenses', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(expense),
             });
             
@@ -34,7 +36,9 @@ export const useExpensesStore = defineStore('expenses', () => {
 
     const fetchExpenses = async () => {
         try {            
-            const response = await fetch(`${apiUrl}/expenses`);
+            const response = await fetch(`${apiUrl}/expenses`, {
+                credentials: 'include',
+            });
             if (!response.ok) {
                 throw new Error('Error fetching expenses');
             }
@@ -51,7 +55,9 @@ export const useExpensesStore = defineStore('expenses', () => {
 
     const fetchExpense = async (id) => {
         try {
-            const response = await fetch(`${apiUrl}/expenses/${id}`);
+            const response = await fetch(`${apiUrl}/expenses/${id}`, {
+                credentials: 'include',
+            });
             if (!response.ok) {
                 throw new Error('Error fetching expense');
             }
@@ -68,6 +74,7 @@ export const useExpensesStore = defineStore('expenses', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(expense),
             });
             if (!response.ok) {
@@ -83,6 +90,7 @@ export const useExpensesStore = defineStore('expenses', () => {
         try {
             const response = await fetch(`${apiUrl}/expenses/${id}`, {
                 method: 'DELETE',
+                credentials: 'include',
             });
             if (!response.ok) {
                 throw new Error('Error deleting expense');

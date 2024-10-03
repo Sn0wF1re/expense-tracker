@@ -1,19 +1,23 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { Cookies } from "quasar";
 
 export const useCategoriesStore = defineStore("categories", () => {
     const categories = ref([]);
     const category = ref(null);
     const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
+    const token = Cookies.get("token");
+    console.log("token", token);
 
     const addCategory = async (category) => {
         try {
             const response = await fetch(`${apiUrl}/categories`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(category),
             });
             if (!response.ok) {
@@ -27,7 +31,9 @@ export const useCategoriesStore = defineStore("categories", () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(`${apiUrl}/categories`);
+            const response = await fetch(`${apiUrl}/categories`, {
+                credentials: "include",
+            });
             if (!response.ok) {
                 throw new Error("Error fetching categories");
             }
@@ -39,7 +45,9 @@ export const useCategoriesStore = defineStore("categories", () => {
 
     const fetchCategory = async (id) => {
         try {
-            const response = await fetch(`${apiUrl}/categories/${id}`);
+            const response = await fetch(`${apiUrl}/categories/${id}`, {
+                credentials: "include",
+            });
             if (!response.ok) {
                 throw new Error("Error fetching category");
             }

@@ -13,6 +13,7 @@ export const useBudgetStore = defineStore("budget", () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(budget),
             });
             if (!response.ok) {
@@ -33,7 +34,9 @@ export const useBudgetStore = defineStore("budget", () => {
         const currentMonth = monthNames[new Date().getMonth()];
 
         try {
-            const response = await fetch(`${apiUrl}/budgets/${currentMonth}`);
+            const response = await fetch(`${apiUrl}/budgets/${currentMonth}`, {
+                credentials: "include",
+            });
             if (!response.ok) {
                 throw new Error("Error fetching budget");
             }
