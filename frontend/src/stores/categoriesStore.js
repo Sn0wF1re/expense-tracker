@@ -7,8 +7,6 @@ export const useCategoriesStore = defineStore("categories", () => {
     const category = ref(null);
     const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
-    const token = Cookies.get("token");
-    console.log("token", token);
 
     const addCategory = async (category) => {
         try {
