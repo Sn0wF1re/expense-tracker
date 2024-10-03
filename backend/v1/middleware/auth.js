@@ -12,9 +12,8 @@ const generateToken = (user) => {
 };
 
 const verifyToken = (req, res, next) => {
-  // const headers = req.headers.authorization;
-  // const token = headers ? headers.split(' ')[1] : null;
-  const token = req.cookies.token;
+  const headers = req.headers.authorization;
+  const token = headers ? headers.split(' ')[1] : null;
   if (!token) {
     return res.status(401).json({ error: 'No token provided' });
   }
