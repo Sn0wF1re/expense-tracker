@@ -11,13 +11,16 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-// const corsOptions = {
-//   origin: true
-// };
+const corsOptions = {
+  origin: [
+    'http://localhost:9000',
+    'https://wapidoh.netlify.app'
+  ]
+};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 
