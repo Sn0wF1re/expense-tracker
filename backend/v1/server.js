@@ -9,7 +9,6 @@ const { verifyToken } = require('./middleware/auth');
 dotenv.config();
 
 const app = express();
-
 // CORS configuration
 const corsOptions = {
   origin: [
@@ -18,9 +17,19 @@ const corsOptions = {
   ]
 };
 
+app.use(cors(corsOptions));
+
+app.use(function(req, res, next) {
+  const allowedOrigins = ['http://localhost:9000', 'https://wapidoh.netlify.app'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors(corsOptions));
 app.use(cookieParser());
 
 
