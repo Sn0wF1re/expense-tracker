@@ -46,11 +46,12 @@ export const useExpensesStore = defineStore('expenses', () => {
                 throw new Error('Error fetching expenses');
             }
             const data = await response.json();
-            const currentMonth = new Date().getMonth();
-            expenses.value = data.filter(expense => {
-                const expenseMonth = (new Date(expense.date)).getMonth();
-                return expenseMonth === currentMonth;
-            });
+            // const currentMonth = new Date().getMonth();
+            // expenses.value = data.filter(expense => {
+            //     const expenseMonth = (new Date(expense.date)).getMonth();
+            //     return expenseMonth === currentMonth;
+            // });
+            expenses.value = data;
         } catch (error) {
             console.log('Error fetching expenses', error);
         };
