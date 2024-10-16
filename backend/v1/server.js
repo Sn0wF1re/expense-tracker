@@ -14,19 +14,11 @@ const corsOptions = {
   origin: [
     'http://localhost:9000',
     'https://wapidoh.netlify.app'
-  ]
+  ],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
-
-app.use(function(req, res, next) {
-  const allowedOrigins = ['http://localhost:9000', 'https://wapidoh.netlify.app'];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-       res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  next();
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
