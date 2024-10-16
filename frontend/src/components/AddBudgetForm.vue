@@ -19,15 +19,17 @@
 
             <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
-                <q-btn flat label="Add" color="primary" @click="addExpense" />
+                <q-btn flat label="Add" color="primary" @click="addBudget" />
             </q-card-actions>
         </q-card>
     </q-dialog>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useBudgetStore } from '../stores/budgetStore'; 
 
+const budgetStore = useBudgetStore();
 const label = ref('Create Budget');
 const isDialogOpen = ref(false);
 const budget = ref('');
@@ -58,15 +60,19 @@ const validOptions = options.filter(option => option.value >= getCurrentMonth())
 
 
 
-const addExpense = () => {
-  // Handle adding expense logic here
-  console.log('Expense added:', expenseName.value, expenseAmount.value);
+const addBudget = () => {
+  // Handle adding budget logic here
+  budgetStore.addBudget(budget.value);
   isDialogOpen.value = false;
 };
 
 const openDialog = () => {
   isDialogOpen.value = true;
 };
+
+onMounted(() => {
+    budgetStore.fetchBudget();
+});
 </script>
 
 <style scoped>
