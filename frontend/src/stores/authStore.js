@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await fetch(`${apiUrl}/confirm/${token}`);
       emailConfirmed.value = 'confirmed';
-      router.push('/login');
+      router.push('/');
     } catch (error) {
       console.error('Email confirmation failed:', error.message);
       emailConfirmed.value = 'error';
@@ -110,7 +110,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     Cookies.remove('token');
     Cookies.remove('firstName');
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   return {

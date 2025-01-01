@@ -2,7 +2,7 @@
     <div class="auth-card">
         <div v-if="updatedPassword === 'success'" class="feedback">
             <h2>Password updated successfully</h2>
-            <router-link to="/login">Go to login</router-link>
+            <router-link to="/">Go to login</router-link>
         </div>
 
         <div v-else-if="updatedPassword === 'error'" class="feedback">
@@ -15,7 +15,7 @@
             <input type="password" id="password" v-model="newPassword" placeholder="Your new password" required>
             <input type="password" id="password" v-model="confirmPassword" placeholder="Confirm new password" required>
             <button type="submit" class="bg-accent">Update</button>
-            <router-link to="/login">Go to login</router-link>
+            <router-link to="/">Go to login</router-link>
         </form>
     </div>
 </template>

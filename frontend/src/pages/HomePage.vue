@@ -78,7 +78,6 @@ const balance = computed(() => budget.value - expenditure.value);
 
 onMounted(async () => {
     await budgetStore.fetchBudget();
-    console.log('budget:', budget.value);
     await expensesStore.fetchExpenses();
 });
 </script>

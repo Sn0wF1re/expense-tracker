@@ -3,12 +3,12 @@
         <div v-if="registrationSuccess === 'success'" class="feedback">
             <h2>Registration successful</h2>
             <p>Please check your email to verify your account.</p>
-            <router-link to="/login">Go to login</router-link>
+            <router-link to="/">Go to login</router-link>
         </div>
 
         <div v-else-if="registrationSuccess === 'error'" class="feedback">
             <h2>Registration failed</h2>
-            <router-link to="/signup">Try again</router-link>
+            <router-link to="/register">Try again</router-link>
         </div>
 
         <form v-else @submit.prevent="handleRegistration">
@@ -24,7 +24,7 @@
             <button type="submit" class="bg-accent">Sign up</button>
             <p>
                 Already have an account?
-                <router-link to="/login">Log in instead</router-link>
+                <router-link to="/">Log in instead</router-link>
             </p>
         </form>
 
