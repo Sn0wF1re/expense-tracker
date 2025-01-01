@@ -18,7 +18,7 @@
 
             <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
-                <q-btn flat label="Add" color="primary" @click="addExpense" />
+                <q-btn flat label="Add" color="primary" @click="addCategory" />
             </q-card-actions>
         </q-card>
     </q-dialog>
@@ -26,14 +26,17 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useCategoriesStore } from '../stores/categoriesStore';
 
+const categoriesStore = useCategoriesStore();
 const label = ref('Add Category');
 const isDialogOpen = ref(false);
 const expenseCategory = ref('');
 
-const addExpense = () => {
+const addCategory = () => {
   // Handle adding expense logic here
-  console.log('Expense added:', expenseName.value, expenseAmount.value);
+  categoriesStore.addCategory(expenseCategory.value);  
+  console.log('Category added:', expenseCategory.value);
   isDialogOpen.value = false;
 };
 

@@ -9,7 +9,7 @@ export const useCategoriesStore = defineStore("categories", () => {
     const apiUrl = `${baseUrl}/api/v1`;
     const token = Cookies.get("token");
 
-    const addCategory = async (category) => {
+    const addCategory = async (name) => {
         try {
             const response = await fetch(`${apiUrl}/categories`, {
                 method: "POST",
@@ -17,7 +17,7 @@ export const useCategoriesStore = defineStore("categories", () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify(category),
+                body: JSON.stringify({ name }),
             });
             if (!response.ok) {
                 throw new Error("Error adding category");
