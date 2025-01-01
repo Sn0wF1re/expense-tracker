@@ -3,7 +3,7 @@ import { Cookies } from "quasar";
 import { ref } from "vue";
 
 export const useBudgetStore = defineStore("budget", () => {
-    const budget = ref(null);
+    const budget = ref(0);
     const baseUrl = process.env.BASE_URL;
     const apiUrl = `${baseUrl}/api/v1`;
     const token = Cookies.get("token");
@@ -16,7 +16,7 @@ export const useBudgetStore = defineStore("budget", () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify(budget),
+                body: JSON.stringify({ budget }),
             });
             if (!response.ok) {
                 throw new Error("Error adding budget");

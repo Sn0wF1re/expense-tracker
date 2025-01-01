@@ -13,7 +13,7 @@
             </q-card-section>
 
             <q-card-section>
-                <q-input v-model="budget" label="Amount" type="number" />
+                <q-input v-model="budgetAmount" label="Amount" type="number" />
                 <q-select v-model="month" :options="validOptions" label="Month" />
             </q-card-section>
 
@@ -32,7 +32,7 @@ import { useBudgetStore } from '../stores/budgetStore';
 const budgetStore = useBudgetStore();
 const label = ref('Create Budget');
 const isDialogOpen = ref(false);
-const budget = ref('');
+const budgetAmount = ref(null);
 const month = ref('');
 const options = [
     { label: 'January', value: '0'},
@@ -62,7 +62,8 @@ const validOptions = options.filter(option => option.value >= getCurrentMonth())
 
 const addBudget = () => {
   // Handle adding budget logic here
-  budgetStore.addBudget(budget.value);
+
+  budgetStore.addBudget(budgetAmount.value);
   isDialogOpen.value = false;
 };
 
